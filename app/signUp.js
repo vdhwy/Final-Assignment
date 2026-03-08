@@ -16,9 +16,14 @@ import { Ionicons } from '@expo/vector-icons';
 export default function signUp() {
     const router = useRouter();
     const {register} = useAuth();
+
+    //Loading state
     const [loading, setLoading] = useState(false);
+
+    //Hidden password state
     const [isSecure, setIsSecure] = useState(true);
 
+    //
     const emailRef = useRef('');
     const passwordRef = useRef('');
     const confirmPasswordRef = useRef('');

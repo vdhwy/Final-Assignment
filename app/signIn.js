@@ -1,9 +1,7 @@
 import { View, Text, StatusBar, Image, StyleSheet, TouchableOpacity, Alert, Pressable, TextInput, TouchableWithoutFeedback } from 'react-native';
 import { Octicons } from '@expo/vector-icons';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
-import { cloneElement, useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import Loading from '../components/Loading';
 import { useRouter } from 'expo-router';
 import CustomKeyboardView from '../components/CustomKeyboardView';
@@ -17,8 +15,10 @@ export default function signIn() {
     //Load authentication
     const [loading, setLoading] = useState(false);
 
-    //Password and email state
+    //Hidden password state
     const [isSecure, setIsSecure] = useState(true);
+
+    //Password and email ref
     const emailRef = useRef('');
     const passwordRef = useRef('');
 
