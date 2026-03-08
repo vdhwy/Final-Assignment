@@ -13,7 +13,11 @@ import { Ionicons } from '@expo/vector-icons';
 export default function signIn() {
     const router = useRouter();
     const {login} = useAuth();
+
+    //Load authentication
     const [loading, setLoading] = useState(false);
+
+    //Password and email state
     const [isSecure, setIsSecure] = useState(true);
     const emailRef = useRef('');
     const passwordRef = useRef('');
@@ -63,11 +67,7 @@ export default function signIn() {
                             autoCapitalize='false'
                         /> 
                         <TouchableOpacity style={{alignItems: 'flex-end'}} onPress={() => setIsSecure(!isSecure)}>
-                            <Ionicons 
-                                name={isSecure ? 'eye-off' : 'eye'} 
-                                size={24} 
-                                color="gray" 
-                            />
+                            <Ionicons name={isSecure ? 'eye-off' : 'eye'} size={24} color="gray"/>
                         </TouchableOpacity>
                     </View>       
 
@@ -119,14 +119,14 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 4 },
     },
     inputContainer: {
-        flexDirection: 'row',     // Aligns the icon and text side-by-side
-        alignItems: 'center',     // Centers them vertically
-        backgroundColor: '#dfdbdbff', // Gives the illusion of the input background
-        borderRadius: 12,         // Rounds the corners of the "box"
-        paddingHorizontal: 16,    // Adds space on the left and right
-        height: 56,               // Sets the height of the "box"
+        flexDirection: 'row',     
+        alignItems: 'center',     
+        backgroundColor: '#dfdbdbff',
+        borderRadius: 12,         
+        paddingHorizontal: 16,    
+        height: 56,              
         margin: 10,
-        fontSize: 16, // Comfortable reading size
+        fontSize: 16, 
         color: '#3C4858', // A dark gray for readability with a hint of warmth
         shadowColor: '#9E9E9E', // A medium gray shadow for depth
         shadowOffset: { width: 0, height: 2 },
