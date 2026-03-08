@@ -1,4 +1,4 @@
-# Final_Assignment
+# Final_Assignment (This assignment is done by 1 student)
 
 To run the app, create a .env file and paste all the keys in firebase project.
 
