@@ -7,7 +7,6 @@ import { useAuth } from '../../context/authContext';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import CenterUser from '../../components/CenterUser';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 export default function AddLocationScreen() {
     const { user } = useAuth(); 
@@ -113,7 +112,7 @@ export default function AddLocationScreen() {
     };
 
     const handleSaveLocation = async () => {
-        if (!name || !description || rating === 0 || !selectedLocation) {
+        if (!name || !description || !selectedLocation) {
             Alert.alert('Missing Fields', 'Please fill out all fields and ensure a location is selected.');
             return;
         }

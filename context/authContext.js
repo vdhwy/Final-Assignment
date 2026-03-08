@@ -42,8 +42,12 @@ export const AuthContextProvider = ({children}) => {
             return { success: true, data: response?.user};
         } catch(e) {
             let msg = e.message;
-            if (msg.includes('(auth/invalid-email)')) msg='Invalid email'
-            if (msg.includes('(auth/invalid-credential)')) msg='Wrong credential'
+            if (msg.includes('(auth/invalid-email)')) {
+                msg='Invalid email';
+            }
+            if (msg.includes('(auth/invalid-credential)')) {
+                msg='Wrong credential';
+            }
             return { success: false, msg};
         }
     }
@@ -70,13 +74,18 @@ export const AuthContextProvider = ({children}) => {
                 })
                 return { success: true, data: response?.user };
             } else {
-                Alert.alert('Confirm password does not match')
-                return { success: false}
+                let msg = 'Confirm password does not match';
+                Alert.alert('Confirm password does not match');
+                return { success: false, msg};
             } 
         } catch(e) {
-            let msg = e.message
-            if (msg.includes('(auth/invalid-email)')) msg='Invalid email'
-            if (msg.includes('(auth/email-already-in-use)')) msg='This email already in use'
+            let msg = e.message;
+            if (msg.includes('(auth/invalid-email)')) {
+                msg='Invalid email';
+            }
+            if (msg.includes('(auth/email-already-in-use)')) {
+                msg='This email already in use';
+            }
             return { success: false, msg };
         }
     }

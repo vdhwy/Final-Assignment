@@ -1,11 +1,10 @@
 
-import { View, Text, StatusBar, Image, StyleSheet, TouchableOpacity, Alert, Pressable, TextInput, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, StatusBar, Image, StyleSheet, TouchableOpacity, Alert, TextInput } from 'react-native';
 import { Octicons } from '@expo/vector-icons';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
-import { cloneElement, useState, useRef } from 'react';
-import { AuthContextProvider, useAuth } from '../context/authContext';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useState, useRef } from 'react';
+import { useAuth } from '../context/authContext';
 import Loading from '../components/Loading';
 import { useRouter } from 'expo-router';
 import Feather from '@expo/vector-icons/Feather';
@@ -23,7 +22,7 @@ export default function signUp() {
     //Hidden password state
     const [isSecure, setIsSecure] = useState(true);
 
-    //
+    //Sign up ref
     const emailRef = useRef('');
     const passwordRef = useRef('');
     const confirmPasswordRef = useRef('');
@@ -41,7 +40,7 @@ export default function signUp() {
         setLoading(false);
         
         console.log('Got result: ', response);
-        if (!response) {
+        if (!response.success) {
             Alert.alert('Sign up: ', response.msg);
         }
     }

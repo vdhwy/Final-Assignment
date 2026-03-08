@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator, Alert, TextInput, FlatList, TouchableOpacity } from 'react-native';
+import { Modal, View, Text, StyleSheet, ActivityIndicator, Alert, TextInput, FlatList, TouchableOpacity } from 'react-native';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
@@ -16,11 +16,11 @@ export default function MapScreen() {
     const [firebaseLoading, setFirebaseLoading] = useState(true);
     const [locationLoading, setLocationLoading] = useState(true);
 
-    // New states for the Country Search and Map Ref
+    // State for country search and map ref
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const [isSearching, setIsSearching] = useState(false);
-    const mapRef = useRef(null); // Used to animate the map camera
+    const mapRef = useRef(null); 
 
     useEffect(() => {
         (async () => {
@@ -42,7 +42,7 @@ export default function MapScreen() {
     }, []);
 
     useEffect(() => {
-        const currentUserId = user?.userId || user?.uid;
+        const currentUserId = user?.userId;
         if (!currentUserId) {
           setFirebaseLoading(false);
           return;
@@ -65,7 +65,7 @@ export default function MapScreen() {
         });
 
         return () => unsubscribe();
-    }, [user?.userId, user?.uid]);
+    }, [user?.userId]);
 
     const handleSearchCountry = async (text) => {
         setSearchQuery(text);
@@ -93,19 +93,19 @@ export default function MapScreen() {
         }
     };
 
-    // 👇 3Handle selecting a country from the dropdown
+    // Handle selecting a country from the dropdown
     const handleSelectCountry = (country) => {
-        setSearchQuery(country.name.common); // Put the name in the input box
-        setSearchResults([]); // Hide the dropdown
+        setSearchQuery(country.name.common); 
+        setSearchResults([]); 
 
         // Animate the map to the country's coordinates
         if (country.latlng && mapRef.current) {
             mapRef.current.animateToRegion({
                 latitude: country.latlng[0],
                 longitude: country.latlng[1],
-                latitudeDelta: 10, // Zoomed out to see the whole country
+                latitudeDelta: 10,
                 longitudeDelta: 10,
-            }, 1000); // 1000ms animation duration
+            }, 1000); 
         }
     };
 
@@ -120,8 +120,7 @@ export default function MapScreen() {
 
     return (
         <View style={styles.container}>
-            
-            {/* 👇 4. The Floating Search Bar Overlay */}
+            {/* Search bar */}
             <View style={styles.searchOverlay}>
                 <View style={styles.searchBarContainer}>
                     <Ionicons name="search" size={20} color="gray" style={styles.searchIcon} />
@@ -134,7 +133,7 @@ export default function MapScreen() {
                     {isSearching && <ActivityIndicator size="small" color="#5C6BC0" style={{ marginRight: 10 }} />}
                 </View>
 
-                {/* The Dropdown Results */}
+                {/* The dropdown result */}
                 {searchResults.length > 0 && (
                     <FlatList
                         data={searchResults}
@@ -176,8 +175,9 @@ export default function MapScreen() {
                         </Callout>
                     </Marker>
                 ))}
-                <CenterUser style={{paddingHorizontal: 100}} setMapRegion={setMapRegion} mapRef={mapRef}/>
             </MapView>
+            <CenterUser setMapRegion={setMapRegion} mapRef={mapRef}/>
+            
         </View>
     );
 }

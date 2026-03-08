@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
 import { View, Text, StyleSheet, ActivityIndicator, ImageBackground } from 'react-native';
 import { useRouter } from 'expo-router';
-import { useAuth } from '../context/authContext';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useAuth } from '../context/authContext'; 
 
 export default function StartPage() {
     const {isAuthenticated} = useAuth();
@@ -18,7 +17,7 @@ export default function StartPage() {
             }
         }, 2000)
         return () => clearTimeout(timer);
-    }, [isAuthenticated])
+    }, [isAuthenticated, router])
 
     return (
         <View style={styles.container}>

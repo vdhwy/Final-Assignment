@@ -1,6 +1,6 @@
 import { Slot, useRouter, useSegments } from "expo-router";
-import { useEffect, useState } from "react";
-import { AuthContext, AuthContextProvider, useAuth } from "../context/authContext";
+import { useEffect } from "react";
+import { AuthContextProvider, useAuth } from "../context/authContext";
 
 const MainLayout = () => {
   const { isAuthenticated } = useAuth();
@@ -10,12 +10,11 @@ const MainLayout = () => {
   useEffect(() => {
     //check if user authenticated or not
     if (typeof isAuthenticated == "undefined") return;
-    if (segments.length === 0) return;
     const inApp = segments[0] == "(app)";
     if (isAuthenticated && !inApp) {
       // Redirect to Home
       router.replace("home");
-    } else if (isAuthenticated == false) {
+    } else if (isAuthenticated == false && inApp) {
       // Redirect to Sign In
       router.replace("signIn");
     }

@@ -11,12 +11,16 @@ import CardView from '../../components/CardView';
 import { useRouter } from 'expo-router';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
+
 export default function HomeScreen() {
     const router = useRouter();
     const { user } = useAuth();
     const flatListRef = useRef(null);
 
+    //Location state
     const [locations, setLocations] = useState([]);
+
+    //Loading state
     const [loading, setLoading] = useState(true);
 
     //Select button state
@@ -32,22 +36,8 @@ export default function HomeScreen() {
     //Navigate button state
     const [isPointingUp, setIsPointingUp] = useState(false);
 
-    const handleUpdateLocation = (locationItem) => {
-        router.push({
-            pathname: '/updateReview', 
-            params: { 
-                id: locationItem.id,
-                name: locationItem.name,
-                description: locationItem.description,
-                rating: locationItem.rating?.toString(), // Must pass as string
-                latitude: locationItem.latitude?.toString(),
-                longitude: locationItem.longitude?.toString()
-            }
-        });
-    };
-
     useEffect(() => {
-        const currentUserId = user?.userId || user?.uid;
+        const currentUserId = user?.userId;
         if (!currentUserId) {
             setLoading(false);
             return;
@@ -70,7 +60,7 @@ export default function HomeScreen() {
         });
 
         return () => unsubscribe();
-    }, [user?.userId, user?.uid]);
+    }, [user?.userId]);
 
     const sortedLocations = [...locations].sort((a, b) => {
         if (sortBy === 'name') {
@@ -82,6 +72,7 @@ export default function HomeScreen() {
         }
     });
 
+    //Delete single cards
     const deleteSingleLocation = (id) => {
         Alert.alert("Delete Location", "Are you sure you want to delete this review?", [
             { text: "Cancel", style: "cancel" },
@@ -92,6 +83,7 @@ export default function HomeScreen() {
         ]);
     };
 
+    //Delete selected cards
     const deleteSelectedLocations = () => {
         if (selectedIds.length === 0) return;
         Alert.alert("Delete Selected", `Are you sure you want to delete ${selectedIds.length} locations?`, [
@@ -106,6 +98,7 @@ export default function HomeScreen() {
         ]);
     };
 
+    //Delete all cards
     const clearAllLocations = () => {
         if (locations.length === 0) return;
         Alert.alert("Clear All", "Are you sure you want to delete ALL your reviews? This cannot be undone.", [
@@ -126,6 +119,7 @@ export default function HomeScreen() {
     const scrollToTop = () => flatListRef.current?.scrollToOffset({ offset: 0, animated: true });
     const scrollToBottom = () => flatListRef.current?.scrollToEnd({ animated: true });
 
+    //Toggle Selection
     const toggleSelection = (id) => {
         if (selectedIds.includes(id)) {
             setSelectedIds(selectedIds.filter(itemId => itemId !== id));
@@ -202,12 +196,13 @@ export default function HomeScreen() {
                     )}
                 />
             )}
-            <View style={styles.scrollButtonsContainer}>
-                <TouchableOpacity style={styles.scrollNavButton} onPress={isPointingUp ? scrollToTop : scrollToBottom}>
-                    <Ionicons name={isPointingUp ? "chevron-up" : "chevron-down"} size={28} color="white" />
-                </TouchableOpacity>
-            </View>
-
+            {locations.length > 0 && (
+                <View style={styles.scrollButtonsContainer}>
+                    <TouchableOpacity style={styles.scrollNavButton} onPress={isPointingUp ? scrollToTop : scrollToBottom}>
+                        <Ionicons name={isPointingUp ? "chevron-up" : "chevron-down"} size={28} color="white" />
+                    </TouchableOpacity>
+                </View>
+            )}
             {isSelectionMode && selectedIds.length > 0 && (
                 <TouchableOpacity style={styles.floatingDeleteButton} onPress={deleteSelectedLocations}>
                     <Ionicons name="trash" size={24} color="white" />
@@ -256,7 +251,7 @@ export default function HomeScreen() {
                                     ))}
                                 </View>
                                 <Text style={styles.fullDescription}>{selectedLocation.description.trim()}</Text>
-                                <Text style={styles.dateText}>
+                                <Text>
                                     Last updated: {selectedLocation.createdAt?.toDate 
                                         ? selectedLocation.createdAt.toDate().toLocaleDateString() 
                                         : 'Unknown date'}
